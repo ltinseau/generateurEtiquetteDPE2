@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div>
+      <h1>Générateur d'étiquette DPE et GES</h1>
+    </div>
     <div class="content">
       <section>section de gauche</section>
       <section id="sectionDPE">
@@ -16,15 +19,14 @@
           width="400"
           height="400"
           style="background: white"
-          viewBox="0 -5 140 105"
+          viewBox="0 -10 140 105"
         >
           <g id="polygonesDPE">
             <path
               id="polynome0"
               fill="var(--color-DPE1)"
               fill-opacity="1"
-              d="M50 0
-        h 18 l 4.034 5 -4.034 5 h -18 Z"
+              d="M50 0 h 18 l 4.034 5 -4.034 5 h -18 Z"
             />
             <path
               id="polynome1"
@@ -217,15 +219,22 @@
           <g id="frameContentDPE" fill-opacity="0"></g>
         </svg>
       </section>
+      <section id="formulaire">
+        <!-- <form class="Btn" method="post">
+          <input
+            type="button"
+            value="capture d'écran"
+            onclick="getScreenshot()"
+          />
+        </form> -->
+        <form class="Btn" method="post"></form>
+        <a id="download" class="Btn" href="">Télécharger</a>
+      </section>
+      <section id="sectionGES"></section>
       <section>section de droite</section>
     </div>
 
     <div id="outputDPE"></div>
-    <a class="a" href="">Télécharger</a>
-
-    <form method="post">
-      <input type="button" value="capture d'écran" onclick="getScreenshot()" />
-    </form>
 
     <script src="./html2canvas.js"></script>
     <script src="./index.js"></script>
