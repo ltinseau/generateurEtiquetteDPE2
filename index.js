@@ -1,40 +1,47 @@
 const DPE_index = 86;
 const GES_index = 30;
-const quality = {
-  SMALL: {
-    value: 1,
-    name: "Small",
-    resolution: "96ppp",
-    taille: "35 Ko",
-    scale: 1.73,
-  },
-  MEDIUM: {
-    value: 2,
-    name: "Medium",
-    resolution: "150ppp",
-    taille: "55 Ko",
-    scale: 2.7,
-  },
-  LARGE: {
-    value: 3,
-    name: "Large",
-    resolution: "200ppp",
-    taille: "90 Ko",
-    scale: 3.96,
-  },
-  EXTRALARGE: {
-    value: 4,
-    name: "Extra large",
-    resolution: "300ppp",
-    taille: "400 Ko",
-    scale: 10,
-  },
-  HD: {
-    value: 4,
-    name: "Haute définition",
-    resolution: "600ppp",
-    taille: "580 Ko",
-    scale: 11.8,
+const QualityEnum = {
+  SMALL: 1,
+  MEDIUM: 2,
+  LARGE: 3,
+  EXTRALARGE: 4,
+  HD: 5,
+  properties: {
+    1: {
+      value: 1,
+      name: "Small",
+      resolution: "96ppp",
+      taille: "35 Ko",
+      scale: 1.73,
+    },
+    2: {
+      value: 2,
+      name: "Medium",
+      resolution: "150ppp",
+      taille: "55 Ko",
+      scale: 2.7,
+    },
+    3: {
+      value: 3,
+      name: "Large",
+      resolution: "200ppp",
+      taille: "90 Ko",
+      scale: 3.96,
+    },
+    4: {
+      value: 4,
+      name: "Extra large",
+      resolution: "300ppp",
+      taille: "400 Ko",
+      scale: 10,
+    },
+    5: {
+      value: 4,
+      name: "Haute définition",
+      resolution: "600ppp",
+      taille: "580 Ko",
+      scale: 11.8,
+    },
   },
 };
 
@@ -305,20 +312,40 @@ setPolygon(calculateIndex(DPE_index, GES_index)[2]);
 graphGESDisplay(GES_index);
 setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
 
-// function getScreenshot() {
-//   const exportDPE = document.getElementById("sectionDPE");
-//   html2canvas(exportDPE, {
-//     scale: 10,
-//   }).then((canvas) => {
-//     document.getElementById("outputDPE").appendChild(canvas);
-//     let cvs = document.querySelector("canvas");
-//     let a = document.querySelector(".a");
-//     a.href = cvs.toDataURL();
-//     a.download = "etiquetteDPE.png";
-//   });
-// }
-
 function saveScreenshot(target, scale) {
+  const screenshot = document.getElementById(target);
+  html2canvas(screenshot, { scale: scale }).then((canvas) => {
+    document.getElementById("outputDPE").appendChild(canvas);
+    let cvs = document.querySelector("canvas");
+    let a = document.getElementById("download");
+    a.href = cvs.toDataURL();
+    a.download = "etiquetteDPE.png";
+    a.click();
+  });
+}
+saveScreenshot("sectionDPE", 9.451);
+
+//===============================================================//
+//
+//             Informations complémentaires
+//
+//===============================================================//
+
+// utilisation de l'objet Enum :
+var myQuality = QualityEnum.MEDIUM; // ==> 2
+var myResolution = QualityEnum.properties[myQuality].resolution; // ==> 150ppp
+// pour figer l'objet et empêcher l'ajout, la suppression ou la modification des propriétés;
+if (Object.freeze) Object.freeze(QualityEnum); // avec test car freeze n'est pas reconnu par tous les navigateurs
+
+// méthode pour utiliser la capture d'écran
+//
+// 1. on récupère le fichier html2canvas.js sur github ou sur cdn:
+//   "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+// 2. on ajoute dans index.html le script:
+//       <script src="./html2canvas.js"></script>
+// 3.
+
+function getScreenshot(target, scale) {
   const screenshot = document.getElementById(target);
   html2canvas(screenshot, { scale: scale }).then((canvas) => {
     document.getElementById("outputDPE").appendChild(canvas);
@@ -329,4 +356,3 @@ function saveScreenshot(target, scale) {
     a.click;
   });
 }
-saveScreenshot("sectionGES", 10);

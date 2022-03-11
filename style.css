@@ -45,10 +45,6 @@ h1 {
   border-bottom: 5px solid white;
 }
 
-.content {
-  height: 350px;
-}
-
 #sectionDPE #sectionGES {
   max-height: 350px;
 }
@@ -156,33 +152,23 @@ h1 {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-around;
-  align-items: baseline;
-  align-content: stretch;
+  align-items: center;
+  align-content: flex-start;
+  max-height: 400px;
 }
 
 #formulaire {
   max-height: 350px;
-  width: 20%;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
-  align-content: space-around;
+  align-content: flex-start;
 }
-/* .a {
-  color: white;
-  background-color: var(--color-DPE1);
-  font-family: Calibri, "Trebuchet MS", sans-serif;
-  font-style: normal;
-  font-size: 1rem;
-  border: 1px solid grey;
-  border-radius: 3px;
-  box-shadow: 4px 4px 5px 1px rgba(0, 0, 0, 0.71);
-  -webkit-box-shadow: 4px 4px 5px 1px rgba(0, 0, 0, 0.71);
-  -moz-box-shadow: 4px 4px 5px 1px rgba(0, 0, 0, 0.71);
-} */
 
 .Btn {
+  margin: 10px;
+  padding: 3px 10px;
   text-decoration: none;
   max-width: 50%;
   min-height: 30px;
@@ -198,6 +184,38 @@ h1 {
   color: var(--main-bg-color);
   cursor: pointer;
   transition: 0.2s;
+  box-shadow: 1px 1px 5px 0px rgba(15, 3, 116, 0.59);
+  -webkit-box-shadow: 1px 1px 5px 0px rgba(15, 3, 116, 0.59);
+  -moz-box-shadow: 1px 1px 5px 0px rgba(15, 3, 116, 0.59);
+}
+.Btn:hover {
+  transform: scale(1.1);
+}
+
+.Btn:active {
+  transform: scale(1.2);
+  filter: brightness(130%);
+  background-color: var(--color-DPE3);
+}
+.formulaire {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: space-evenly;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-family: "Titillium Web", sans-serif;
+}
+.formulaire > fieldset p {
+  padding: 10px;
+  text-align: left;
+  font-size: 1.4rem;
+}
+label {
+  font-size: 1rem;
 }
 
 #outputDPE > canvas {
