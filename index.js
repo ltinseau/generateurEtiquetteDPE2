@@ -1,5 +1,5 @@
-const DPE_index = 86;
-const GES_index = 30;
+let DPE_index = 0;
+let GES_index = 0;
 const QualityEnum = {
   SMALL: 1,
   MEDIUM: 2,
@@ -115,7 +115,6 @@ function changeNextPolygons(id) {
 function changePolygon(id) {
   // modifie le polygone id
   let decalage = 11 * id;
-  console.log("decalage = " + decalage);
   // efface le polynome id d'origine et sa lettre
   document.getElementById("polynome" + id).classList.add("hiddenPolynom");
   document.getElementById("lettrage" + id).classList.add("hiddenPolynom");
@@ -303,14 +302,70 @@ function setGraphGES(id) {
   <text class="logementEmis" x="5" y="94">très importantes</text>
   `;
 }
-console.log(calculateIndex(DPE_index, GES_index));
 
 // affivhage DPE
-setPolygon(calculateIndex(DPE_index, GES_index)[2]);
+// setPolygon(calculateIndex(DPE_index, GES_index)[2]);
 
 // affichage GES
 graphGESDisplay(GES_index);
 setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
+
+//===============================================================//
+//
+//             réinitialisation des graphiques
+//
+//===============================================================//
+
+function initDPE() {
+  for (i = 0; i < 7; i++) {
+    document.getElementById("Gpolynome" + i).classList.remove("displayPolynom");
+    document.getElementById("lettrageG" + i).classList.remove("displayPolynom");
+    document.getElementById("polynome" + i).classList.remove("hidenPolynom");
+    document.getElementById("lettrage" + i).classList.remove("hidenPolynom");
+    document.getElementById("Lpolynome" + i).classList.remove("displayPolynom");
+    document.getElementById("lettrageL" + i).classList.remove("displayPolynom");
+    document.getElementById("Gpolynome" + i).classList.add("hiddenPolynom");
+    document.getElementById("lettrageG" + i).classList.add("hiddenPolynom");
+    document.getElementById("polynome" + i).classList.add("displayPolynom");
+    document.getElementById("lettrage" + i).classList.add("displayPolynom");
+    document.getElementById("Lpolynome" + i).classList.add("hidenPolynom");
+    document.getElementById("lettrageL" + i).classList.add("hidenPolynom");
+  }
+}
+
+//===============================================================//
+//
+//             Mise à jour des étiquettes
+//
+//===============================================================//
+
+const fieldDPE = document.getElementById("DPEindex");
+fieldDPE.addEventListener("input", (e) => {
+  DPE_index = e.target.value;
+  console.log("DPE = " + DPE_index);
+  console.log(calculateIndex(DPE_index, GES_index));
+  initDPE();
+  setPolygon(calculateIndex(DPE_index, GES_index)[2]);
+  graphGESDisplay(GES_index);
+  setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
+});
+
+const fieldGES = document.getElementById("GESindex");
+fieldGES.addEventListener("input", (e) => {
+  GES_index = e.target.value;
+  console.log("GES = " + GES_index);
+  console.log(calculateIndex(DPE_index, GES_index));
+  initDPE();
+  setPolygon(calculateIndex(DPE_index, GES_index)[2]);
+  graphGESDisplay(GES_index);
+  setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
+});
+
+//===============================================================//
+//
+//             Capture du graphique
+//
+//===============================================================//
 
 function saveScreenshot(target, scale) {
   const screenshot = document.getElementById(target);
@@ -320,7 +375,7 @@ function saveScreenshot(target, scale) {
     let a = document.getElementById("download");
     a.href = cvs.toDataURL();
     a.download = "etiquetteDPE.png";
-    a.click();
+    // a.click();
   });
 }
 saveScreenshot("sectionDPE", 9.451);
