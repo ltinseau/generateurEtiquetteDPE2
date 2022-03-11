@@ -44,6 +44,7 @@ const QualityEnum = {
     },
   },
 };
+const sectionDPE = document.getElementById("sectionDPE");
 
 function calculateIndex(DPE_index, GES_index) {
   let DPE_class = [0, 0, 0];
@@ -101,10 +102,8 @@ function calculateIndex(DPE_index, GES_index) {
 
   return DPE_class;
 }
-console.log("test1 OK");
 
-function graphDPEDisplay() {
-  const sectionDPE = document.getElementById("sectionDPE");
+function graphDPEinit() {
   sectionDPE.innerHTML = `
   <svg
             id="svgDPE"
@@ -125,6 +124,11 @@ function graphDPEDisplay() {
         <g id="indexFrame"></g>
         <g id="frameContentDPE" fill-opacity="0"></g>
       `;
+}
+
+function graphDPEDisplay() {
+  graphDPEinit();
+
   for (i = 0; i < 7; i++) {
     document.getElementById("polygonesDPE").innerHTML += `
               <path
@@ -189,9 +193,10 @@ function graphDPEDisplay() {
           11 * i
         } h 40 v 20 h -40 q -1.5 0 -1.5 -1.5 v -17 q 0 -1.5 1.5 -1.5 Z M 30 ${
       i * 11 + 1.5
-    } 30 ${i * 11 + 18.5}
+    } 30 ${i * 11 + 18.5}"
   ></path>
-  `
+  `;
+  }
 }
 
 function changeNextPolygons(id) {
@@ -247,7 +252,6 @@ function setPolygon(id) {
   <text class="logementCons" x="50" y="90">logement extrêmement consommateur d'énergie</text>
   `;
 }
-
 
 // affichage DPE
 graphDPEDisplay();
@@ -375,7 +379,7 @@ function changeGraph(id) {
     .getElementById("frameContentGES")
     .style.setProperty("transform", "translateY(" + decalage + "px");
   document.getElementById("frameContentGES").innerHTML = `
-        
+
         <text id="indexGES2" class="valueDPE" x="98" y="13.5">${GES_index}</text>
         <text class="unitDPE" x="110.2" y="13.5">KgCO</text>
         <text class="unitDPEsub" x="114.7" y="14">2</text>
@@ -403,8 +407,6 @@ function setGraphGES(id) {
   <text class="logementEmis" x="5" y="94">très importantes</text>
   `;
 }
-
-
 
 // affichage GES
 graphGESDisplay();
@@ -455,6 +457,7 @@ fieldGES.addEventListener("input", (e) => {
   GES_index = e.target.value;
   console.log("GES = " + GES_index);
   console.log(calculateIndex(DPE_index, GES_index)[2]);
+  graphDPEDisplay(calculateIndex(DPE_index, GES_index)[2]);
   setPolygon(calculateIndex(DPE_index, GES_index)[2]);
   graphGESDisplay(GES_index);
   setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
