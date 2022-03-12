@@ -1,50 +1,46 @@
 let DPE_index = 0;
 let GES_index = 0;
+let qualityChoice = 0;
+
 const QualityEnum = {
-  SMALL: 1,
-  MEDIUM: 2,
-  LARGE: 3,
-  EXTRALARGE: 4,
-  HD: 5,
+  HD: 1,
+  excellente: 2,
+  standard: 3,
+  faible: 4,
   properties: {
     1: {
       value: 1,
-      name: "Small",
-      resolution: "96ppp",
-      taille: "35 Ko",
-      scale: 1.73,
+      name: "HD",
+      resolution: "600dpi",
+      size: "500 Ko",
+      scale: 9.451,
     },
     2: {
       value: 2,
-      name: "Medium",
-      resolution: "150ppp",
-      taille: "55 Ko",
-      scale: 2.7,
+      name: "excellente",
+      resolution: "300dpi",
+      size: "200 Ko",
+      scale: 4.725,
     },
     3: {
       value: 3,
-      name: "Large",
-      resolution: "200ppp",
-      taille: "90 Ko",
-      scale: 3.96,
+      name: "standard",
+      resolution: "150dpi",
+      size: "60 Ko",
+      scale: 2.363,
     },
     4: {
       value: 4,
-      name: "Extra large",
-      resolution: "300ppp",
-      taille: "400 Ko",
-      scale: 10,
-    },
-    5: {
-      value: 4,
-      name: "Haute définition",
-      resolution: "600ppp",
-      taille: "580 Ko",
-      scale: 11.8,
+      name: "faible",
+      resolution: "75dpi",
+      size: "24 Ko",
+      scale: 1.181,
     },
   },
 };
 const sectionDPE = document.getElementById("sectionDPE");
+
+if (Object.freeze) Object.freeze(QualityEnum);
 
 function calculateIndex(DPE_index, GES_index) {
   let DPE_class = [0, 0, 0];
@@ -233,9 +229,7 @@ function changePolygon(id) {
         <text id="indexDPE" class="valueDPE" x="19" y="11">${DPE_index}</text>
         <text class="unitDPE" x="19" y="15">KWh/m².an</text>
         <text id="indexGLS" class="valueDPE" x="40" y="11">${GES_index}</text>
-        <text class="unitDPE" x="35.2" y="15">KgCO</text>
-        <text class="unitDPEsub" x="39.7" y="15.5">2</text>
-        <text class="unitDPE" x="44.4" y="15">/m².an</text>
+        <text class="unitDPE" x="40" y="15">KgCO&#8322;/m².an</text>
         <text class="unitDPE" x="19" y="-5">consommation</text>
         <text class="nrjPrimaire" x="19" y="-2">(énergie primaire)</text>
         <text class="unitDPE" x="40" y="-2">émissions</text>
@@ -381,9 +375,7 @@ function changeGraph(id) {
   document.getElementById("frameContentGES").innerHTML = `
 
         <text id="indexGES2" class="valueDPE" x="98" y="13.5">${GES_index}</text>
-        <text class="unitDPE" x="110.2" y="13.5">KgCO</text>
-        <text class="unitDPEsub" x="114.7" y="14">2</text>
-        <text class="unitDPE" x="119.5" y="13.5">/m².an</text>
+        <text class="unitDPE" x="116" y="13.5">KgCO&#8322/m².an</text>
             `;
 }
 function changeNextGraph(id) {
@@ -418,22 +410,19 @@ setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
 //
 //===============================================================//
 
-// function initDPE() {
-//   for (i = 0; i < 7; i++) {
-//     document.getElementById("Gpolynome" + i).classList.remove("displayPolynom");
-//     document.getElementById("lettrageG" + i).classList.remove("displayPolynom");
-//     document.getElementById("polynome" + i).classList.remove("hidenPolynom");
-//     document.getElementById("lettrage" + i).classList.remove("hidenPolynom");
-//     document.getElementById("Lpolynome" + i).classList.remove("displayPolynom");
-//     document.getElementById("lettrageL" + i).classList.remove("displayPolynom");
-//     document.getElementById("Gpolynome" + i).classList.add("hiddenPolynom");
-//     document.getElementById("lettrageG" + i).classList.add("hiddenPolynom");
-//     document.getElementById("polynome" + i).classList.add("displayPolynom");
-//     document.getElementById("lettrage" + i).classList.add("displayPolynom");
-//     document.getElementById("Lpolynome" + i).classList.add("hidenPolynom");
-//     document.getElementById("lettrageL" + i).classList.add("hidenPolynom");
-//   }
-// }
+// à remplacer par la gestion des champs vides
+
+//===============================================================//
+//
+//             Affichage des formulaired DPE et GLS
+//
+//===============================================================//
+
+// fonction pour afficher le formulaire DPE
+//  /!\ doit précéder l'eventListener, donc la MAJ des étiquettes
+
+// fonction pour afficher le formulaire GES
+//  /!\ doit précéder l'eventListener, donc la MAJ des étiquettes
 
 //===============================================================//
 //
@@ -462,6 +451,78 @@ fieldGES.addEventListener("input", (e) => {
   graphGESDisplay(GES_index);
   setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
 });
+
+//===============================================================//
+//
+//             Affichage du formulaire de capture d'écran
+//
+//===============================================================//
+
+// fonction pour afficher le formulaire (sans la liste des résolutions)
+function mainFormulaireDisplay(element) {
+  document.getElementById(element).innerHTML = `
+  <form class="formulaire" name="mainForm" method="post" action="traitement.php">
+          <fieldset>
+            <p>
+              Etiquette(s) à télécharger :<br />
+              <input type="checkbox" name="labelDPE" id="labelDPE" />
+              <label for="labelDPE">étiquette DPE</label><br />
+              <input type="checkbox" name="labelGES" id="labelGES" />
+              <label for="labelGES">étiquette GES</label><br />
+            </p>
+            <p id="resolutionForm">
+              <!-- resolutionListDisplay() -->
+            </p>
+          </fieldset>
+        </form>
+        <a id="download" class="Btn" href="">Valider</a>
+  `;
+}
+
+// fonction pour afficher les résolutions (avec un selecteur en DE)
+function resolutionListDisplay(element, defaut) {
+  document.getElementById(element).innerHTML = `
+    Choix de la résolution :<br />`;
+  for (i = 1; i <= 4; i++) {
+    var quality = QualityEnum.properties[i];
+    // input avec coche par défaut (checked)
+    function inputDefault() {
+      document.getElementById(element).innerHTML += `
+    <input
+      type="radio"
+      name="resolution"
+      value="${quality.scale}"
+      id="${quality.resolution}"
+      checked
+  />`;
+      qualityChoice = quality.scale;
+    }
+    quality.name == defaut
+      ? inputDefault()
+      : (document.getElementById(element).innerHTML += `
+      <input
+        type="radio"
+        name="resolution"
+        value="${quality.scale}"
+        id="${quality.resolution}"
+    />`);
+    // label :
+    document.getElementById(element).innerHTML += `
+    <label for= ${quality.resolution}> ${quality.name} <span style="font-style:italic"> &nbsp; &nbsp;  &#10137;  &nbsp;  ${quality.resolution} (~${quality.size})</span> </label><br />
+    `;
+  }
+}
+
+mainFormulaireDisplay("formulaire");
+resolutionListDisplay("resolutionForm", "standard");
+
+var radios = document.forms["mainForm"].elements["resolution"];
+for (var i = 0, max = radios.length; i < max; i++) {
+  radios[i].onclick = function () {
+    qualityChoice = this.value;
+    console.log(qualityChoice);
+  };
+}
 
 //===============================================================//
 //

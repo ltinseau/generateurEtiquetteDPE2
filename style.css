@@ -91,14 +91,7 @@ h1 {
 }
 .unitDPE {
   font-family: sans-serif;
-  font-size: 0.18rem;
-  font-weight: bolder;
-  fill: black;
-  text-anchor: middle;
-}
-.unitDPEsub {
-  font-family: sans-serif;
-  font-size: 0.13rem;
+  font-size: 0.19rem;
   font-weight: bolder;
   fill: black;
   text-anchor: middle;
