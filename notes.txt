@@ -1,0 +1,40 @@
+// utilisation de l'objet Enum :
+var myQuality = QualityEnum.MEDIUM; // ==> 2
+var myResolution = QualityEnum.properties[myQuality].resolution; // ==> 150ppp
+// pour figer l'objet et empêcher l'ajout, la suppression ou la modification des propriétés;
+if (Object.freeze) Object.freeze(DaysEnum); // avec test car freeze n'est pas reconnu par tous les navigateurs
+
+// méthode pour utiliser la capture d'écran
+
+1. on récupère le fichier html2canvas.js sur github ou sur cdn:
+"https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+
+2. on ajoute dans index.html le script:
+     <script src="./html2canvas.js"></script>
+
+3. emploi de html2canvas():
+
+cible = selecteur de la zone qu'on veut capturer. On le récupère avec un document.getElementById() ou un querySelector().
+Les options sont listées ici => https://html2canvas.hertzen.com/configuration
+
+html2canvas(cible, {option1: value1, option2: value2, ...})
+        .then((canvas) => {
+    document.getElementById("output").appendChild(canvas);
+        });
+
+output = l'endroit (généralement un <div> ) ou on va mettre la capture. (si on ne veut pas l'afficher, il faudra rajouter un display: none dans le css pour #output)
+
+Html2canvas fonctionne avec une promesse (then).
+
+exemple avec téléchargement:
+
+function getScreenshot(target, scale) {
+  const screenshot = document.getElementById(target);
+  html2canvas(screenshot, { scale: scale }).then((canvas) => {
+    document.getElementById("outputDPE").appendChild(canvas);
+    let cvs = document.querySelector("canvas");
+    let a = document.getElementById("download");
+    a.href = cvs.toDataURL();
+    a.download = "etiquetteDPE.png";
+    a.click();
+  });
