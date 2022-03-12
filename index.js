@@ -461,21 +461,30 @@ fieldGES.addEventListener("input", (e) => {
 // fonction pour afficher le formulaire (sans la liste des résolutions)
 function mainFormulaireDisplay(element) {
   document.getElementById(element).innerHTML = `
-  <form class="formulaire" name="mainForm" method="post" action="traitement.php">
-          <fieldset>
-            <p>
-              Etiquette(s) à télécharger :<br />
-              <input type="checkbox" name="label" id="labelDPE" />
-              <label for="labelDPE">étiquette DPE</label><br />
-              <input type="checkbox" name="label" id="labelGES" />
-              <label for="labelGES">étiquette GES</label><br />
-            </p>
-            <p id="resolutionForm">
-              <!-- resolutionListDisplay() -->
-            </p>
-          </fieldset>
-        </form>
-        <a id="download" class="Btn" href="">Valider</a>
+    <form class="formulaire" name="mainForm" method="post" action="traitement.php">
+      <fieldset>
+        <p>
+          Etiquette(s) à télécharger :<br />
+          <input type="checkbox" name="label" id="labelDPE" />
+          <label for="labelDPE">étiquette DPE</label><br />
+          <input type="checkbox" name="label" id="labelGES" />
+          <label for="labelGES">étiquette GES</label><br />
+        </p>
+        <p id="resolutionForm">
+          <!-- resolutionListDisplay() -->
+        </p>
+      </fieldset>
+    </form>
+    <form class="boutons">
+      <p> Etiquette(s) à télécharger :<br /> </p>
+      <div>
+        <a id="downloadDPE" href=""></a>
+        <button type="button" class="Btn">DPE</button>
+        <a id="downloadGES" href=""></a>
+        <button type="button" class="Btn">GES</button>
+      </div>
+    </form>
+        
   `;
 }
 
