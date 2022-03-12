@@ -414,7 +414,7 @@ setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
 
 //===============================================================//
 //
-//             Affichage des formulaired DPE et GLS
+//             Affichage des formulaires DPE et GLS
 //
 //===============================================================//
 
@@ -465,9 +465,9 @@ function mainFormulaireDisplay(element) {
           <fieldset>
             <p>
               Etiquette(s) à télécharger :<br />
-              <input type="checkbox" name="labelDPE" id="labelDPE" />
+              <input type="checkbox" name="label" id="labelDPE" />
               <label for="labelDPE">étiquette DPE</label><br />
-              <input type="checkbox" name="labelGES" id="labelGES" />
+              <input type="checkbox" name="label" id="labelGES" />
               <label for="labelGES">étiquette GES</label><br />
             </p>
             <p id="resolutionForm">
@@ -479,7 +479,7 @@ function mainFormulaireDisplay(element) {
   `;
 }
 
-// fonction pour afficher les résolutions (avec un selecteur en DE)
+// fonction pour afficher les résolutions (avec un selecteur en DE et la résolution par défaut)
 function resolutionListDisplay(element, defaut) {
   document.getElementById(element).innerHTML = `
     Choix de la résolution :<br />`;
@@ -516,11 +516,22 @@ function resolutionListDisplay(element, defaut) {
 mainFormulaireDisplay("formulaire");
 resolutionListDisplay("resolutionForm", "standard");
 
+const cbs = document.querySelectorAll("input[name=label]");
+
+cbs.forEach((cb) => {
+  cb.addEventListener("change", function () {
+    if (this.checked) {
+      console.log(`Checkbox ${this.id} is checked..`);
+    } else {
+      console.log(`Checkbox ${this.id} is not checked..`);
+    }
+  });
+});
+
 var radios = document.forms["mainForm"].elements["resolution"];
 for (var i = 0, max = radios.length; i < max; i++) {
   radios[i].onclick = function () {
     qualityChoice = this.value;
-    console.log(qualityChoice);
   };
 }
 
@@ -538,14 +549,47 @@ function saveScreenshot(target, scale) {
     let a = document.getElementById("download");
     a.href = cvs.toDataURL();
     a.download = "etiquetteDPE.png";
-    // a.click();
+    a.click();
   });
 }
 
-// saveScreenshot("sectionDPE", 9.451);
+// saveScreenshot("sectionDPE", qualityChoice);
 
 //===============================================================//
 //
-//             Informations complémentaires
+//             téléchargement des étiquettes
 //
 //===============================================================//
+
+document.getElementById("download").addEventListener("click", (e) => {
+  e.preventDefault();
+  console.log("j'ai validé !!!");
+  console.log(cbs[0].checked);
+  console.log(cbs[1].checked);
+  if (!cbs[0].checked && !cbs[1].checked) {
+    alert("vous devez sélectionner au moins une étiquette");
+  } else {
+    if (cbs[0].checked) {
+      let screenshot = document.getElementById("sectionDPE");
+      html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
+        document.getElementById("outputDPE").appendChild(canvas);
+        let cvs = document.querySelector("canvas");
+        let a = document.getElementById("DPElink");
+        a.href = cvs.toDataURL();
+        a.download = "DPE.png";
+        a.click();
+      });
+    }
+    if (cbs[1].checked) {
+      let screenshot = document.getElementById("sectionGES");
+      html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
+        document.getElementById("outputGES").appendChild(canvas);
+        let cvs = document.querySelector("canvas");
+        let a = document.getElementById("GESlink");
+        a.href = cvs.toDataURL();
+        a.download = "GES.png";
+        a.click();
+      });
+    }
+  }
+});

@@ -235,8 +235,7 @@ input[type="number"] {
   align-items: center;
   align-content: space-evenly;
 }
-
-#outputDPE > canvas {
+#outputDPE #outputGES > canvas {
   max-height: 350px;
   display: none;
 }
