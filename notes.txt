@@ -1,6 +1,6 @@
 // utilisation de l'objet Enum :
-var myQuality = QualityEnum.MEDIUM; // ==> 2
-var myResolution = QualityEnum.properties[myQuality].resolution; // ==> 150ppp
+var myQuality = QualityEnum.excellente; // ==> 2
+var myResolution = QualityEnum.properties[myQuality].resolution; // ==> 300ppp
 // pour figer l'objet et empêcher l'ajout, la suppression ou la modification des propriétés;
 if (Object.freeze) Object.freeze(DaysEnum); // avec test car freeze n'est pas reconnu par tous les navigateurs
 
