@@ -1,6 +1,7 @@
 let DPE_index = 0;
 let GES_index = 0;
 let qualityChoice = 0;
+let fieldsControl = [false, false, false];
 
 const QualityEnum = {
   HD: 1,
@@ -406,23 +407,37 @@ setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
 
 //===============================================================//
 //
-//             réinitialisation des graphiques
+//             contrôle des champs DPE et GES
 //
 //===============================================================//
 
-// à remplacer par la gestion des champs vides
-
-//===============================================================//
+// fonction de contrôle qui va vérifier:
+// - si les valeurs ont été modifiées
 //
-//             Affichage des formulaires DPE et GLS
-//
-//===============================================================//
+// fonction alertDisplay, DE= "DPE" ou "GES"
+function alertDisplay(element) {
+  var fieldsetDPE = document.getElementById("fieldsetDPE");
+  var fieldsetGES = document.getElementById("fieldsetGES");
+  var timeoutID;
 
-// fonction pour afficher le formulaire DPE
-//  /!\ doit précéder l'eventListener, donc la MAJ des étiquettes
+  if (element == "DPE") {
+    fieldsetDPE.classList.add("alertColor");
+    document.getElementById("DPEindex").classList.add("alertField");
+  }
+  if (element == "GES") {
+    fieldsetGES.classList.add("alertColor");
+    document.getElementById("GESindex").classList.add("alertField");
+  }
 
-// fonction pour afficher le formulaire GES
-//  /!\ doit précéder l'eventListener, donc la MAJ des étiquettes
+  timeoutID = window.setTimeout(() => {
+    fieldsetDPE.classList.remove("alertColor");
+    document.getElementById("DPEindex").classList.remove("alertField");
+  }, 800);
+  timeoutID = window.setTimeout(() => {
+    fieldsetGES.classList.remove("alertColor");
+    document.getElementById("GESindex").classList.remove("alertField");
+  }, 800);
+}
 
 //===============================================================//
 //
@@ -439,6 +454,12 @@ fieldDPE.addEventListener("input", (e) => {
   setPolygon(calculateIndex(DPE_index, GES_index)[2]);
   graphGESDisplay(GES_index);
   setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
+  // mise à jour contrôle des champs:
+  DPE_index == "" || DPE_index - Math.abs(Math.round(DPE_index)) != 0
+    ? (fieldsControl[0] = false)
+    : (fieldsControl[0] = true);
+  fieldsControl[2] = fieldsControl[0] && fieldsControl[1];
+  // console.log(fieldsControl[2]);
 });
 
 const fieldGES = document.getElementById("GESindex");
@@ -450,6 +471,12 @@ fieldGES.addEventListener("input", (e) => {
   setPolygon(calculateIndex(DPE_index, GES_index)[2]);
   graphGESDisplay(GES_index);
   setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
+  // mise à jour contrôle des champs:
+  GES_index == "" || GES_index - Math.abs(Math.round(GES_index)) != 0
+    ? (fieldsControl[1] = false)
+    : (fieldsControl[1] = true);
+  fieldsControl[2] = fieldsControl[0] && fieldsControl[1];
+  // console.log(fieldsControl[2]);
 });
 
 //===============================================================//
@@ -470,7 +497,7 @@ function mainFormulaireDisplay(element) {
       </fieldset>
     </form>
     <form class="boutons">
-      <p> Etiquette(s) à télécharger :<br /> </p>
+      <p> Lancer le téléchargement :<br /> </p>
       <div>
         <a id="downloadDPE" href=""></a>
         <button type="button" class="Btn" id="buttonDPE">DPE</button>
@@ -567,31 +594,38 @@ function saveScreenshot(target, scale) {
 document.getElementById("buttonDPE").addEventListener("click", (e) => {
   e.preventDefault();
   let screenshot = document.getElementById("sectionDPE");
-
-  html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
-    document.getElementById("outputDPE").replaceChild(canvas, canvasDPE);
-    canvas.id = "canvasDPE";
-    // édition du fichier DPE.png à partir du contenu du canvas:
-    let cvs = document.getElementById("canvasDPE");
-    let a = document.getElementById("DPElink");
-    a.href = cvs.toDataURL();
-    a.download = "DPE.png";
-    a.click();
-  });
+  if (fieldsControl[2]) {
+    html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
+      document.getElementById("outputDPE").replaceChild(canvas, canvasDPE);
+      canvas.id = "canvasDPE";
+      // édition du fichier DPE.png à partir du contenu du canvas:
+      let cvs = document.getElementById("canvasDPE");
+      let a = document.getElementById("DPElink");
+      a.href = cvs.toDataURL();
+      a.download = "DPE.png";
+      a.click();
+    });
+  } else {
+    !fieldsControl[0] ? alertDisplay("DPE") : () => {};
+    !fieldsControl[1] ? alertDisplay("GES") : () => {};
+  }
 });
 
 document.getElementById("buttonGES").addEventListener("click", (e) => {
   e.preventDefault();
   let screenshot = document.getElementById("sectionGES");
-
-  html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
-    document.getElementById("outputGES").replaceChild(canvas, canvasGES);
-    canvas.id = "canvasGES";
-    // édition du fichier GES.png à partir du contenu du canvas:
-    let cvs2 = document.getElementById("canvasGES");
-    let a = document.getElementById("GESlink");
-    a.href = cvs2.toDataURL();
-    a.download = "GES.png";
-    a.click();
-  });
+  if (fieldsControl[1]) {
+    html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
+      document.getElementById("outputGES").replaceChild(canvas, canvasGES);
+      canvas.id = "canvasGES";
+      // édition du fichier GES.png à partir du contenu du canvas:
+      let cvs2 = document.getElementById("canvasGES");
+      let a = document.getElementById("GESlink");
+      a.href = cvs2.toDataURL();
+      a.download = "GES.png";
+      a.click();
+    });
+  } else {
+    alertDisplay("GES");
+  }
 });
