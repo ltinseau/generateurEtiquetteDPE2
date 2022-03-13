@@ -479,9 +479,9 @@ function mainFormulaireDisplay(element) {
       <p> Etiquette(s) à télécharger :<br /> </p>
       <div>
         <a id="downloadDPE" href=""></a>
-        <button type="button" class="Btn">DPE</button>
+        <button type="button" class="Btn" id="buttonDPE">DPE</button>
         <a id="downloadGES" href=""></a>
-        <button type="button" class="Btn">GES</button>
+        <button type="button" class="Btn" id="buttonGES">GES</button>
       </div>
     </form>
         
@@ -570,35 +570,32 @@ function saveScreenshot(target, scale) {
 //
 //===============================================================//
 
-document.getElementById("download").addEventListener("click", (e) => {
+document.getElementById("buttonDPE").addEventListener("click", (e) => {
   e.preventDefault();
-  console.log("j'ai validé !!!");
-  console.log(cbs[0].checked);
-  console.log(cbs[1].checked);
-  if (!cbs[0].checked && !cbs[1].checked) {
-    alert("vous devez sélectionner au moins une étiquette");
-  } else {
-    if (cbs[0].checked) {
-      let screenshot = document.getElementById("sectionDPE");
-      html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
-        document.getElementById("outputDPE").appendChild(canvas);
-        let cvs = document.querySelector("canvas");
-        let a = document.getElementById("DPElink");
-        a.href = cvs.toDataURL();
-        a.download = "DPE.png";
-        a.click();
-      });
-    }
-    if (cbs[1].checked) {
-      let screenshot = document.getElementById("sectionGES");
-      html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
-        document.getElementById("outputGES").appendChild(canvas);
-        let cvs = document.querySelector("canvas");
-        let a = document.getElementById("GESlink");
-        a.href = cvs.toDataURL();
-        a.download = "GES.png";
-        a.click();
-      });
-    }
-  }
+  let screenshot = document.getElementById("sectionDPE");
+
+  html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
+    document.getElementById("outputDPE").appendChild(canvas);
+    // édition du fichier DPE.png à partir du contenu du canvas:
+    let cvs = document.querySelector("canvas");
+    let a = document.getElementById("DPElink");
+    a.href = cvs.toDataURL();
+    a.download = "DPE.png";
+    a.click();
+  });
+});
+
+document.getElementById("buttonGES").addEventListener("click", (e) => {
+  e.preventDefault();
+  let screenshot = document.getElementById("sectionGES");
+
+  html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
+    document.getElementById("outputGES").appendChild(canvas);
+    // édition du fichier GES.png à partir du contenu du canvas:
+    let cvs = document.querySelector("canvas");
+    let a = document.getElementById("GESlink");
+    a.href = cvs.toDataURL();
+    a.download = "GES.png";
+    a.click();
+  });
 });
