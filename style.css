@@ -6,7 +6,8 @@
 }
 
 :root {
-  --main-bg-color: rgb(25, 78, 146);
+  --main-bg-color: rgb(17, 36, 72);
+  --alert-color: rgb(252, 67, 83);
   --bg-text: #00a47a;
   --color-DPE1: rgb(0, 156, 109);
   --color-DPE2: rgb(82, 177, 83);
@@ -264,4 +265,82 @@ input[type="number"] {
 .boutons > div {
   display: flex;
   flex-direction: row;
+}
+
+@keyframes alertField {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: var(--alert-color);
+  }
+  100% {
+    background-color: white;
+  }
+}
+@-webkit-keyframes alertField {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: var(--alert-color);
+  }
+  100% {
+    background-color: white;
+  }
+}
+
+@keyframes alertColor {
+  0% {
+    color: white;
+    border-color: white;
+  }
+  50% {
+    color: var(--alert-color);
+    border-color: var(--alert-color);
+  }
+  100% {
+    color: white;
+    border-color: white;
+  }
+}
+@-webkit-keyframes alertColor {
+  0% {
+    color: white;
+    border-color: white;
+  }
+  50% {
+    color: var(--alert-color);
+    border-color: var(--alert-color);
+  }
+  100% {
+    color: white;
+    border-color: white;
+  }
+}
+
+.alertField {
+  animation-name: alertField;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 2;
+  animation-fill-mode: none;
+  -webkit-animation-name: alertField;
+  -webkit-animation-duration: 0.2s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 2;
+  -webkit-animation-fill-mode: none;
+}
+
+.alertColor {
+  animation-name: alertColor;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 2;
+  animation-fill-mode: none;
+  -webkit-animation-name: alertColor;
+  -webkit-animation-duration: 0.2s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 2;
+  -webkit-animation-fill-mode: none;
 }
