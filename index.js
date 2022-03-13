@@ -20,7 +20,7 @@ const QualityEnum = {
       name: "excellente",
       resolution: "300dpi",
       size: "200 Ko",
-      scale: 4.725,
+      scale: 4.726,
     },
     3: {
       value: 3,
@@ -34,7 +34,7 @@ const QualityEnum = {
       name: "faible",
       resolution: "75dpi",
       size: "24 Ko",
-      scale: 1.181,
+      scale: 1.182,
     },
   },
 };
@@ -463,13 +463,7 @@ function mainFormulaireDisplay(element) {
   document.getElementById(element).innerHTML = `
     <form class="formulaire" name="mainForm" method="post" action="traitement.php">
       <fieldset>
-        <p>
-          Etiquette(s) à télécharger :<br />
-          <input type="checkbox" name="label" id="labelDPE" />
-          <label for="labelDPE">étiquette DPE</label><br />
-          <input type="checkbox" name="label" id="labelGES" />
-          <label for="labelGES">étiquette GES</label><br />
-        </p>
+        
         <p id="resolutionForm">
           <!-- resolutionListDisplay() -->
         </p>
@@ -575,9 +569,10 @@ document.getElementById("buttonDPE").addEventListener("click", (e) => {
   let screenshot = document.getElementById("sectionDPE");
 
   html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
-    document.getElementById("outputDPE").appendChild(canvas);
+    document.getElementById("outputDPE").replaceChild(canvas, canvasDPE);
+    canvas.id = "canvasDPE";
     // édition du fichier DPE.png à partir du contenu du canvas:
-    let cvs = document.querySelector("canvas");
+    let cvs = document.getElementById("canvasDPE");
     let a = document.getElementById("DPElink");
     a.href = cvs.toDataURL();
     a.download = "DPE.png";
@@ -590,11 +585,12 @@ document.getElementById("buttonGES").addEventListener("click", (e) => {
   let screenshot = document.getElementById("sectionGES");
 
   html2canvas(screenshot, { scale: qualityChoice }).then((canvas) => {
-    document.getElementById("outputGES").appendChild(canvas);
+    document.getElementById("outputGES").replaceChild(canvas, canvasGES);
+    canvas.id = "canvasGES";
     // édition du fichier GES.png à partir du contenu du canvas:
-    let cvs = document.querySelector("canvas");
+    let cvs2 = document.getElementById("canvasGES");
     let a = document.getElementById("GESlink");
-    a.href = cvs.toDataURL();
+    a.href = cvs2.toDataURL();
     a.download = "GES.png";
     a.click();
   });
