@@ -3,6 +3,69 @@ let GES_index = 0;
 let qualityChoice = 0;
 let fieldsControl = [false, false, false];
 
+const contents = {
+  sectionDPE: `
+  <svg
+            id="svgDPE"
+            width="400"
+            height="400"
+            style="background: white"
+            viewBox="0 -10 140 105"
+          >
+    <g id="polygonesDPE"></g>
+    <g id="grosPolygonesDPE"></g>
+    <g id="longPolygonesDPE"></g>
+    <g id="lettragesDPE" class="lettrage"></g>
+    <g id="grownLettragesDPE" class="lettrageG"></g>
+    <g id="longLettragesDPE" class="lettrage"></g>
+    <g id="indexFrame"></g>
+    <g id="frameContentDPE" fill-opacity="0"></g>
+  </svg>
+  `,
+  sectionGES: `
+  <svg
+    id="svgGES"
+    width="400"
+    height="400"
+    style="background: white"
+    viewBox="0 -10 140 105"
+  >
+    <g id="polygonesGES"></g>
+    <g id="grosPolygonesGES"></g>
+    <g id="longPolygonesGES"></g>
+    <g id="lettragesGES" class="lettrage"></g>
+    <g id="grownLettragesGES" class="lettrageG"></g>
+    <g id="longLettragesGES" class="lettrage"></g>
+    <g id="indexLine"></g>
+    <g id="frameContentGES" fill-opacity="0.5"></g>
+</svg>
+`,
+  formulaireDPE: `
+    <form class="formulaire" method="Post" action="">
+      <fieldset id="fieldsetDPE">
+        <p style="text-align: center">Note DPE :</p>
+        <input
+          type="number"
+          name="DPEindex"
+          id="DPEindex"
+          placeholder="0"
+        />
+      </fieldset>
+    </form>`,
+  formulaireGES: `
+    <form class="formulaire" method="Post" action="">
+      <fieldset id="fieldsetGES">
+        <p style="text-align: center">Note GES :</p>
+        <input
+          type="number"
+          name="GESindex"
+          id="GESindex"
+          placeholder="0"
+        />
+      </fieldset>
+    </form>`,
+};
+
 const QualityEnum = {
   HD: 1,
   excellente: 2,
@@ -39,9 +102,14 @@ const QualityEnum = {
     },
   },
 };
-const sectionDPE = document.getElementById("sectionDPE");
-
 if (Object.freeze) Object.freeze(QualityEnum);
+
+const sectionDPE = document.getElementById("sectionDPE");
+const sectionGES = document.getElementById("sectionGES");
+
+function HTMLDisplay(containt, placeID) {
+  document.getElementById(placeID).innerHTML = containt;
+}
 
 function calculateIndex(DPE_index, GES_index) {
   let DPE_class = [0, 0, 0];
@@ -100,31 +168,12 @@ function calculateIndex(DPE_index, GES_index) {
   return DPE_class;
 }
 
-function graphDPEinit() {
-  sectionDPE.innerHTML = `
-  <svg
-            id="svgDPE"
-            width="400"
-            height="400"
-            style="background: white"
-            viewBox="0 -10 140 105"
-          ></svg>
-  `;
-  const svgDPE = document.getElementById("svgDPE");
-  svgDPE.innerHTML = `
-        <g id="polygonesDPE"></g>
-        <g id="grosPolygonesDPE"></g>
-        <g id="longPolygonesDPE"></g>
-        <g id="lettragesDPE" class="lettrage"></g>
-        <g id="grownLettragesDPE" class="lettrageG"></g>
-        <g id="longLettragesDPE" class="lettrage"></g>
-        <g id="indexFrame"></g>
-        <g id="frameContentDPE" fill-opacity="0"></g>
-      `;
-}
+//-------------------------------------------------------------------//
+//      Etiquette DPE
+//-------------------------------------------------------------------//
 
 function graphDPEDisplay() {
-  graphDPEinit();
+  HTMLDisplay(contents.sectionDPE, "sectionDPE");
 
   for (i = 0; i < 7; i++) {
     document.getElementById("polygonesDPE").innerHTML += `
@@ -249,6 +298,7 @@ function setPolygon(id) {
 }
 
 // affichage DPE
+HTMLDisplay(contents.formulaireDPE, "formulaireDPE");
 graphDPEDisplay();
 setPolygon(calculateIndex(DPE_index, GES_index)[2]);
 
@@ -257,27 +307,7 @@ setPolygon(calculateIndex(DPE_index, GES_index)[2]);
 //-------------------------------------------------------------------//
 
 function graphGESDisplay() {
-  const sectionGES = document.getElementById("sectionGES");
-  sectionGES.innerHTML = `
-        <svg
-          id="svgGES"
-          width="400"
-          height="400"
-          style="background: white"
-          viewBox="0 -10 140 105"
-        ></svg>
-  `;
-  const svgGES = document.getElementById("svgGES");
-  svgGES.innerHTML = `
-        <g id="polygonesGES"></g>
-        <g id="grosPolygonesGES"></g>
-        <g id="longPolygonesGES"></g>
-        <g id="lettragesGES" class="lettrage"></g>
-        <g id="grownLettragesGES" class="lettrageG"></g>
-        <g id="longLettragesGES" class="lettrage"></g>
-        <g id="indexLine"></g>
-        <g id="frameContentGES" fill-opacity="0.5"></g>
-      `;
+  HTMLDisplay(contents.sectionGES, "sectionGES");
 
   for (i = 0; i < 7; i++) {
     document.getElementById("polygonesGES").innerHTML += `
@@ -402,6 +432,7 @@ function setGraphGES(id) {
 }
 
 // affichage GES
+HTMLDisplay(contents.formulaireGES, "formulaireGES");
 graphGESDisplay();
 setGraphGES(calculateIndex(DPE_index, GES_index)[1]);
 
@@ -441,7 +472,7 @@ function alertDisplay(element) {
 
 //===============================================================//
 //
-//             Mise à jour des étiquettes
+//             Mise à jour automatique des étiquettes
 //
 //===============================================================//
 
@@ -481,7 +512,7 @@ fieldGES.addEventListener("input", (e) => {
 
 //===============================================================//
 //
-//             Affichage du formulaire de capture d'écran
+//             Boutons pour le téléchargement des étiquettes
 //
 //===============================================================//
 
