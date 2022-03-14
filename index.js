@@ -64,6 +64,27 @@ const contents = {
         />
       </fieldset>
     </form>`,
+  formulaireRsl: `
+    <form class="formulaire" name="mainForm" method="post" action="traitement.php">
+      <fieldset>
+        <p> Choix de la résolution :</p>
+        <p id="resolutionForm"></p>
+      </fieldset>
+    </form>`,
+  formulaireBtn: `
+    <form class="formulaire">
+      <fieldset>
+        <p id="downloadTxt"> Lancer le téléchargement :<br /> </p>
+        <p>
+          <a id="downloadDPE" href=""></a>
+          <button type="button" class="Btn" id="buttonDPE">DPE</button>
+        </p>
+        <p>
+          <a id="downloadGES" href=""></a>
+          <button type="button" class="Btn" id="buttonGES">GES</button>
+        </p>
+      </fieldset>
+    </form>`,
 };
 
 const QualityEnum = {
@@ -76,28 +97,28 @@ const QualityEnum = {
       value: 1,
       name: "HD",
       resolution: "600dpi",
-      size: "500 Ko",
+      size: "480 Ko",
       scale: 9.451,
     },
     2: {
       value: 2,
       name: "excellente",
       resolution: "300dpi",
-      size: "200 Ko",
+      size: "170 Ko",
       scale: 4.726,
     },
     3: {
       value: 3,
       name: "standard",
       resolution: "150dpi",
-      size: "60 Ko",
+      size: "65 Ko",
       scale: 2.363,
     },
     4: {
       value: 4,
       name: "faible",
       resolution: "75dpi",
-      size: "24 Ko",
+      size: "25 Ko",
       scale: 1.182,
     },
   },
@@ -517,33 +538,30 @@ fieldGES.addEventListener("input", (e) => {
 //===============================================================//
 
 // fonction pour afficher le formulaire (sans la liste des résolutions)
-function mainFormulaireDisplay(element) {
-  document.getElementById(element).innerHTML = `
-    <form class="formulaire" name="mainForm" method="post" action="traitement.php">
-      <fieldset>
-        
-        <p id="resolutionForm">
-          <!-- resolutionListDisplay() -->
-        </p>
-      </fieldset>
-    </form>
-    <form class="boutons">
-      <p> Lancer le téléchargement :<br /> </p>
-      <div>
-        <a id="downloadDPE" href=""></a>
-        <button type="button" class="Btn" id="buttonDPE">DPE</button>
-        <a id="downloadGES" href=""></a>
-        <button type="button" class="Btn" id="buttonGES">GES</button>
-      </div>
-    </form>
-        
-  `;
-}
+// function mainFormulaireDisplay(element) {
+//   document.getElementById(element).innerHTML = `
+//     <form class="formulaire" name="mainForm" method="post" action="traitement.php">
+//       <fieldset>
+
+//         <p id="resolutionForm">
+//           <!-- resolutionListDisplay() -->
+//         </p>
+//       </fieldset>
+//     </form>
+//     <form class="boutons">
+//       <p> Lancer le téléchargement :<br /> </p>
+//       <div>
+//         <a id="downloadDPE" href=""></a>
+//         <button type="button" class="Btn" id="buttonDPE">DPE</button>
+//         <a id="downloadGES" href=""></a>
+//         <button type="button" class="Btn" id="buttonGES">GES</button>
+//       </div>
+//     </form>
+//   `;
+// }
 
 // fonction pour afficher les résolutions (avec un selecteur en DE et la résolution par défaut)
 function resolutionListDisplay(element, defaut) {
-  document.getElementById(element).innerHTML = `
-    Choix de la résolution :<br />`;
   for (i = 1; i <= 4; i++) {
     var quality = QualityEnum.properties[i];
     // input avec coche par défaut (checked)
@@ -569,13 +587,16 @@ function resolutionListDisplay(element, defaut) {
     />`);
     // label :
     document.getElementById(element).innerHTML += `
-    <label for= ${quality.resolution}> ${quality.name} <span style="font-style:italic"> &nbsp; &nbsp;  &#10137;  &nbsp;  ${quality.resolution} (~${quality.size})</span> </label><br />
+    <label for= ${quality.resolution}> ${quality.name} <span style="font-style:italic"> &nbsp; &nbsp;  &#10137;  &nbsp;  ${quality.resolution} (<${quality.size})</span> </label><br />
     `;
   }
 }
 
-mainFormulaireDisplay("formulaire");
+//mainFormulaireDisplay("formulaire");
+
+HTMLDisplay(contents.formulaireRsl, "formulaireRsl");
 resolutionListDisplay("resolutionForm", "standard");
+HTMLDisplay(contents.formulaireBtn, "formulaireBtn");
 
 const cbs = document.querySelectorAll("input[name=label]");
 
