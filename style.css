@@ -27,6 +27,9 @@
 
 body {
   background-color: var(--main-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 * {
@@ -37,7 +40,9 @@ body {
   text-align: center;
   /* border: 0.1px solid brown; */
 }
-
+.headline {
+  width: 98%;
+}
 h1 {
   color: white;
   margin: 10px 10px 40px 10px;
@@ -46,9 +51,11 @@ h1 {
   border-bottom: 5px solid white;
 }
 
-/* #sectionDPE #sectionGES {
-  max-height: 350px;
-} */
+div {
+  display: block;
+}
+
+/********   CSS pour les étiquettes   *****************/
 
 .lettrage {
   font-family: sans-serif;
@@ -141,6 +148,8 @@ h1 {
   fill: var(--color-GES7);
 }
 
+/************** FIN CSS étiquettes ******************/
+
 .content {
   display: flex;
   flex-direction: row;
@@ -150,13 +159,60 @@ h1 {
   align-content: flex-start;
 }
 
-#formulaire {
-  max-height: 350px;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
+.main-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "n1 f1 f1 n2"
+    "s1 f1 f1 s2"
+    "s1 f2 f2 s2";
   align-items: center;
-  align-content: flex-start;
+  padding: 20px;
+  max-width: 1220px;
+}
+
+#formulaireDPE {
+  grid-area: n1;
+}
+#formulaireGES {
+  grid-area: n2;
+}
+#formulaireRsl {
+  grid-area: f1;
+  min-height: 200px;
+  min-width: 300px;
+}
+#formulaireBtn {
+  grid-area: f2;
+  min-width: 300px;
+  margin: 20px;
+
+  /* align-content: flex-start; */
+}
+#formulaireBtn fieldset {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "txt txt"
+    "b1 b2";
+  align-items: center;
+  width: auto;
+}
+#sectionDPE {
+  grid-area: s1;
+}
+#sectionGES {
+  grid-area: s2;
+}
+#formulaireDPE,
+#formulaireGES,
+#formulaireRsl,
+#sectionDPE,
+#sectionGES {
+  margin: 10px;
+  height: 100px;
 }
 
 .Btn {
@@ -205,17 +261,21 @@ h1 {
   font-family: "Titillium Web", sans-serif;
 }
 .formulaire > fieldset {
-  width: 100%;
-  margin-bottom: 30px;
+  width: auto;
+  min-width: 200px;
+  /* margin: 20px; */
   border-radius: 10px;
   /* padding: 10px; */
 }
 .formulaire > fieldset > p {
   padding: 10px;
-  text-align: left;
   font-size: 1.4rem;
   font-weight: bold;
 }
+#resolutionForm {
+  text-align: left;
+}
+
 label {
   font-size: 1rem;
   padding: 10px;
@@ -228,7 +288,9 @@ input[type="number"] {
   max-width: 150px;
   font-weight: bold;
 }
-#formulaireDPE > p #formulaireGES > p {
+
+#formulaireDPE > p,
+#formulaireGES > p {
   margin: 10px;
   width: 100%;
   display: flex;
@@ -265,6 +327,15 @@ input[type="number"] {
 .boutons > div {
   display: flex;
   flex-direction: row;
+}
+#downloadTxt {
+  grid-area: txt;
+}
+#downloadDPE {
+  grid-area: b1;
+}
+#downloadGES {
+  grid-area: b2;
 }
 
 @keyframes alertField {
@@ -343,4 +414,177 @@ input[type="number"] {
   -webkit-animation-timing-function: ease-in-out;
   -webkit-animation-iteration-count: 2;
   -webkit-animation-fill-mode: none;
+}
+
+/***************responsive***************************/
+
+@media screen and (max-width: 1220px) {
+  .main-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "n1 f1 f1 n2"
+      "s1 s1 s2 s2"
+      "f2 f2 f2 f2";
+    /* align-content: flex-start; */
+    padding: 20px;
+    justify-items: center;
+  }
+  #formulaireRsl {
+    margin-bottom: 20px;
+    max-width: 300px;
+  }
+  #formulaireDPE,
+  #formulaireGES {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .main-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "n1 f1 f1 n2"
+      "s1 s1 s1 s1"
+      "s2 s2 s2 s2"
+      "f2 f2 f2 f2";
+    /* align-content: flex-start; */
+    padding: 20px;
+    justify-items: center;
+  }
+  #formulaireRsl {
+    margin-bottom: 20px;
+    max-width: 300px;
+  }
+  #formulaireDPE,
+  #formulaireGES {
+    width: 200px;
+  }
+  h1 {
+    margin-bottom: 5px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .main-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto auto auto;
+    grid-template-areas:
+      "n1 n2"
+      "f1 f1"
+      "s1 s1"
+      "s2 s2"
+      "f2 f2";
+    /* align-content: flex-start; */
+    padding: 20px;
+    justify-items: center;
+  }
+  #formulaireRsl {
+    margin-bottom: 20px;
+    max-width: 300px;
+  }
+  #formulaireDPE,
+  #formulaireGES {
+    width: 200px;
+  }
+  h1 {
+    margin-bottom: 0px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-items: center;
+  }
+  #formulaireRsl {
+    margin-bottom: 20px;
+    max-width: 300px;
+  }
+  #formulaireDPE,
+  #formulaireGES {
+    width: 200px;
+  }
+  h1 {
+    margin-bottom: 0px;
+  }
+  h1 > span {
+    white-space: nowrap;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-items: center;
+  }
+  #formulaireRsl {
+    margin-bottom: 20px;
+    max-width: 300px;
+  }
+  #formulaireDPE,
+  #formulaireGES {
+    width: 200px;
+  }
+  h1 {
+    margin: 5px 0px 0px 0px;
+  }
+  h1 > span {
+    white-space: nowrap;
+  }
+  #svgDPE,
+  #svgGES {
+    width: 300px;
+    height: 300px;
+  }
+  #sectionDPE,
+  #sectionGES {
+    margin-bottom: -90px;
+  }
+  .main-container {
+    padding: 0px;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    justify-items: center;
+  }
+  #formulaireRsl {
+    margin: 10px 0px 20px 0px;
+    max-width: 300px;
+  }
+  #formulaireDPE,
+  #formulaireGES {
+    width: 200px;
+  }
+  h1 {
+    margin: 5px 0px 0px 0px;
+  }
+  h1 > span {
+    white-space: nowrap;
+  }
+  #svgDPE,
+  #svgGES {
+    width: 300px;
+    height: 300px;
+  }
+  #sectionDPE,
+  #sectionGES {
+    margin-bottom: -90px;
+  }
+  .main-container {
+    padding: 0px;
+  }
 }

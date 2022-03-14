@@ -38,3 +38,20 @@ function getScreenshot(target, scale) {
     a.download = "etiquetteDPE.png";
     a.click();
   });
+
+
+
+  @media screen and (max-width: 1325px) {
+  .main-container {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      "n1 s1 s2"
+      "n2 s1 s2"
+      "f1 s1 s2"
+      "f2 f2 f2";
+    /* align-content: flex-start; */
+    padding: 20px;
+  }
+}
